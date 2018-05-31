@@ -1,0 +1,50 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    <record model="ir.ui.view" id="rhoesada.list">
+      <field name="name">fixed asset list</field>
+      <field name="model">rhoesada.fixed.asset</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="description"/>
+          <field name="purchase_date"/>
+          <field name="asset_life"/>
+          <field name="acquisition_cost"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- actions opening views on models -->
+    <record model="ir.actions.act_window" id="rhoesada.action_window">
+      <field name="name">fixed asset window</field>
+      <field name="res_model">rhoesada.fixed.asset</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- server action to the one above -->
+    <record model="ir.actions.server" id="rhoesada.action_server">
+      <field name="name">fixed asset server</field>
+      <field name="model_id" ref="model_rhoesada_fixed_asset"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+
+    <!-- Top menu item -->
+    <menuitem name="rhoesada" id="rhoesada.menu_root"/>
+    <!-- menu categories -->
+    <menuitem name="Menu 1" id="rhoesada.menu_1" parent="rhoesada.menu_root"/>
+    <menuitem name="Menu 2" id="rhoesada.menu_2" parent="rhoesada.menu_root"/>
+    <!-- actions -->
+    <menuitem name="List" id="rhoesada.menu_1_list" parent="rhoesada.menu_1"
+              action="rhoesada.action_window"/>
+    <menuitem name="Server to list" id="rhoesada" parent="rhoesada.menu_2"
+              action="rhoesada.action_server"/>
+  </data>
+</odoo>
